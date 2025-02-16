@@ -1,0 +1,46 @@
+name: ESP32 CI
+
+on: [push, pull_request]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # or windows-latest / macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Arduino CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          echo "$HOME/bin" >> $GITHUB_PATH  # Add to PATH
+          echo "/home/runner/work/physical-computing/physical-computing/bin" >> $GITHUB_PATH
+
+      - name: Verify Arduino CLI installation
+        run: arduino-cli version
+
+      - name: Install ESP32 Board Support
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32
+
+      - name: Install Libraries
+        run: |
+          arduino-cli lib install WiFi
+          arduino-cli lib install "ArduinoOSC"
+         
+
+      # - name: Compile Code
+      #   run: |
+      #     echo $GITHUB_PATH
+      #     arduino-cli compile --fqbn esp32:esp32:featheresp32 physical_computing/esp32/esp32_accelerometer.ino
+
+      # - name: Run Tests
+      #   run: |
+      #     arduino-cli compile --fqbn esp32:esp32:featheresp32 ./esp32/test.ino
+
+      # - name: Upload to ESP32 (Optional, requires USB connection)
+      #   run: |
+      #     arduino-cli upload -p /dev/ttyUSB0 --fqbn esp32:esp32:featheresp32 ./path/to/your/arduino_project
+
