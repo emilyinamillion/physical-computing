@@ -1,37 +1,37 @@
-name: ESP32 CI
-
-on: [push, pull_request]
-
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # or windows-latest / macos-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Install Arduino CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-          echo "$HOME/bin" >> $GITHUB_PATH
+          echo "$HOME/bin" >> $GITHUB_PATH  # Add to PATH
 
-      - name: Set Up Arduino Board
+      - name: Verify Arduino CLI installation
+        run: arduino-cli version
+
+      - name: Install ESP32 Board Support
         run: |
           arduino-cli core update-index
           arduino-cli core install esp32:esp32
-          arduino-cli board listall
 
       - name: Install Libraries
         run: |
-          arduino-cli lib install "WiFi"
-          arduino-cli lib install "Wire"
-          arduino-cli lib install "OSC"
+          arduino-cli lib install WiFi
+          arduino-cli lib install Wire
+          arduino-cli lib install math
+          arduino-cli lib install "ArduinoOSC"
+          arduino-cli lib install "WiFiUdp"
 
-      - name: Compile Sketch
+      - name: Compile Code
         run: |
-          arduino-cli compile --fqbn esp32:esp32:featheresp32 ./path-to-your-arduino-code-folder
+          arduino-cli compile --fqbn esp32:esp32:featheresp32 ./esp32/test.ino
 
-      - name: Run Unit Tests
+      - name: Upload to ESP32 (Optional, requires USB connection)
         run: |
-          arduino-cli compile --fqbn esp32:esp32:featheresp32 ./tests
+          arduino-cli upload -p /dev/ttyUSB0 --fqbn esp32:esp32:featheresp32 ./path/to/your/arduino_project
 
