@@ -28,8 +28,6 @@ jobs:
       - name: Install Libraries
         run: |
           arduino-cli lib install WiFi
-          arduino-cli lib install Wire
-          arduino-cli lib install math
           arduino-cli lib install "ArduinoOSC"
           arduino-cli lib install "WiFiUdp"
 
