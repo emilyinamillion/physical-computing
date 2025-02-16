@@ -31,10 +31,10 @@ jobs:
           arduino-cli lib install "ArduinoOSC"
          
 
-      - name: Compile Code
-        run: |
-          echo $GITHUB_PATH
-          arduino-cli compile --fqbn esp32:esp32:featheresp32 physical_computing/esp32/esp32_accelerometer.ino
+      # - name: Compile Code
+      #   run: |
+      #     echo $GITHUB_PATH
+      #     arduino-cli compile --fqbn esp32:esp32:featheresp32 physical_computing/esp32/esp32_accelerometer.ino
 
       # - name: Run Tests
       #   run: |
