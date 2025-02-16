@@ -1,0 +1,37 @@
+name: ESP32 CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Arduino CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Set Up Arduino Board
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32
+          arduino-cli board listall
+
+      - name: Install Libraries
+        run: |
+          arduino-cli lib install "WiFi"
+          arduino-cli lib install "Wire"
+          arduino-cli lib install "OSC"
+
+      - name: Compile Sketch
+        run: |
+          arduino-cli compile --fqbn esp32:esp32:featheresp32 ./path-to-your-arduino-code-folder
+
+      - name: Run Unit Tests
+        run: |
+          arduino-cli compile --fqbn esp32:esp32:featheresp32 ./tests
+
