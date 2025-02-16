@@ -31,6 +31,10 @@ jobs:
         run: |
           arduino-cli compile --fqbn esp32:esp32:featheresp32 ./esp32/esp32_accelerometer.ino
 
+      - name: Run Tests
+        run: |
+          arduino-cli compile --fqbn esp32:esp32:featheresp32 ./esp32/test.ino
+
       # - name: Upload to ESP32 (Optional, requires USB connection)
       #   run: |
       #     arduino-cli upload -p /dev/ttyUSB0 --fqbn esp32:esp32:featheresp32 ./path/to/your/arduino_project
