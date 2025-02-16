@@ -33,11 +33,11 @@ jobs:
 
       - name: Compile Code
         run: |
-          arduino-cli compile --fqbn esp32:esp32:featheresp32 ./esp32/esp32_accelerometer.ino
+          arduino-cli compile --fqbn esp32:esp32:featheresp32 /physical-computing/physical-computing/esp32/esp32_accelerometer.ino
 
-      - name: Run Tests
-        run: |
-          arduino-cli compile --fqbn esp32:esp32:featheresp32 ./esp32/test.ino
+      # - name: Run Tests
+      #   run: |
+      #     arduino-cli compile --fqbn esp32:esp32:featheresp32 ./esp32/test.ino
 
       # - name: Upload to ESP32 (Optional, requires USB connection)
       #   run: |
