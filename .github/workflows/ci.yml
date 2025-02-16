@@ -33,8 +33,8 @@ jobs:
 
       - name: Compile Code
         run: |
-          echo ./
-          arduino-cli compile --fqbn esp32:esp32:featheresp32 /esp32/esp32_accelerometer.ino
+          echo $GITHUB_PATH
+          arduino-cli compile --fqbn esp32:esp32:featheresp32 physical_computing/esp32/esp32_accelerometer.ino
 
       # - name: Run Tests
       #   run: |
