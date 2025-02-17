@@ -4,11 +4,9 @@
 #include <math.h>
 #include <OSCMessage.h>
 #include <WiFiUdp.h>
+#include config.h
 
-const char* ssid = "your_SSID";
-const char* password = "your_PASSWORD";
 WiFiUDP Udp;
-IPAddress outIp(192, 168, 1, 100);
 const unsigned int outPort = 8000;
 
 const int x_out = A0, y_out = A3, z_out = A6;
