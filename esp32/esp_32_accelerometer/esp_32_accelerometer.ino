@@ -3,14 +3,17 @@
 #include <math.h>
 #include <OSCMessage.h>
 #include <WiFiUdp.h>
-#include "config.h"  // Import WiFi credentials and IP
+#include "../config.h"  // Import WiFi credentials and IP
 
 WiFiUDP Udp;
 
 double roll, pitch, yaw;
-const int x_out = A0, y_out = A3, z_out = A6;
+const int x_out = A1, y_out = A2, z_out = A3;
 int del = 500;
 bool touchDetected[6] = {false};
+
+const unsigned int outPort = 9990;          // remote port to receive OSC
+const unsigned int localPort = 8888;  
 
 struct TouchMapping {
     int index;
@@ -20,7 +23,7 @@ struct TouchMapping {
 TouchMapping touchMap[] = {
     {0, "/33/toggle"},
     {1, "/55/toggle"},
-    {2, "/65/toggle"},
+    {2, "/66/toggle"},
     {3, "/77/toggle"},
     {4, "/88/toggle"},
     {5, "/99/toggle"}
@@ -40,11 +43,15 @@ void setup() {
     Serial.println("\nWiFi connected");
     Udp.begin(OUT_PORT);
     Serial.println("ESP32 Touch OSC");
-
-    touchAttachInterrupt(T3, [](){ gotTouch(0); }, 50);
+#ifdef ESP32
+    Serial.println(localPort);
+#else
+    Serial.println(Udp.localPort());
+#endif
+    // touchAttachInterrupt(T3, [](){ gotTouch(0); }, 50);
     touchAttachInterrupt(T5, [](){ gotTouch(1); }, 0);
     touchAttachInterrupt(T6, [](){ gotTouch(2); }, 0);
-    touchAttachInterrupt(T7, [](){ gotTouch(3); }, 15);
+    // touchAttachInterrupt(T7, [](){ gotTouch(3); }, 15);
     touchAttachInterrupt(T8, [](){ gotTouch(4); }, 35);
     touchAttachInterrupt(T9, [](){ gotTouch(5); }, 35);
 }
