@@ -41,17 +41,15 @@ void setup() {
         Serial.print(".");
     }
     Serial.println("\nWiFi connected");
-    Udp.begin(OUT_PORT);
+    Udp.begin(outPort);
     Serial.println("ESP32 Touch OSC");
 #ifdef ESP32
     Serial.println(localPort);
 #else
     Serial.println(Udp.localPort());
 #endif
-    // touchAttachInterrupt(T3, [](){ gotTouch(0); }, 50);
     touchAttachInterrupt(T5, [](){ gotTouch(1); }, 0);
     touchAttachInterrupt(T6, [](){ gotTouch(2); }, 0);
-    // touchAttachInterrupt(T7, [](){ gotTouch(3); }, 15);
     touchAttachInterrupt(T8, [](){ gotTouch(4); }, 35);
     touchAttachInterrupt(T9, [](){ gotTouch(5); }, 35);
 }
